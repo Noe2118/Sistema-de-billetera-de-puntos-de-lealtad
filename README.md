@@ -1,19 +1,59 @@
-## Getting Started
+# Sistema de billetera de puntos de lealtad
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Aplicación para registrar clientes, acumular puntos por compras,
+canjear recompensas y procesar devoluciones completas de compras.
 
-## Folder Structure
+## Requisitos
 
-The workspace contains two folders by default, where:
+- Java Development Kit (JDK) 8 o posterior, con `javac` y `java` disponibles
+  desde la terminal.
+- No se requieren dependencias externas.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Compilar y ejecutar
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+Abre una terminal en la carpeta raíz del proyecto y ejecuta:
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+```sh
+mkdir -p bin
+javac -d bin $(find src -name '*.java')
+java -cp bin Sistema.Main
+```
 
-## Dependency Management
+## Funcionalidades implementadas
 
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
-# Sistema-de-billetera-de-puntos-de-lealtad
+- **Nivel 1:** registro de clientes, compras, catálogo, canjes, consulta de saldo
+  e historial, con validaciones de datos y errores.
+- **Nivel 2:** Se icluyen niveles de los clientes y sus respectivos multiplicadores 
+  de puntos,respectivamente los puntos por compra se redondean hacia abajo. Los
+  montos aceptan hasta dos decimales.
+- **Nivel 3 (opcional):** Devolución completa de una compra.Se identifica por cliente y     referencia, solo se permite una devolución dentro de los 30 días siguientes a la compra.
+La devolución revierte los puntos originales y recalcula los
+  puntos acumulados para el nivel. Si los puntos ya se canjearon, el saldo puede
+  quedar negativo; las compras futuras primero cubren esa deuda y los canjes no
+  se permiten si el saldo no alcanza.
+
+## Instancias 
+
+- `Cliente` Representa los datos de una persona, su saldo actual, los puntos
+  acumulados que determinan su nivel y su historial.
+- `Movimiento` registra cada acumulación, canje o devolución con puntos, fecha y
+  referencia. El historial conserva el orden de las operaciones y permite
+  rastrear y revertir una compra.
+- `SistemaLealtad` mantiene en memoria las listas de clientes y recompensas,
+  asigna referencias consecutivas a compras y aplica toda la logica.
+- `Recompensa` representa cada premio con su costo en puntos y stock disponible.
+- `Nivel` define los puntos para Bronce, Plata y Oro.
+
+Se usan las colecciones como listas en memoria para guardar los datos sin base de datos.
+
+## Limitaciones y mejoras posibles
+
+- Se podría agregar almacenamiento en archivo o una base de datos para guardar los datos 
+- Se podría mejorar el manejo de errores para cubrir de mejor forma las
+    entrada y evitar datos inválidos en las operaciones.
+
+## Herramientas de apoyo
+
+- Visual Studio Code para editar el proyecto.
+- JDK para compilar y ejecutar el programa.
+- Git para consultar los cambios del proyecto.
